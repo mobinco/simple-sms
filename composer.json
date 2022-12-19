@@ -19,7 +19,7 @@
         "illuminate/view": ">=5.0.0",
         "guzzlehttp/guzzle": "~7",
         "twilio/sdk": "~4",
-        "plivo/plivo-php": "^1.0"
+        "plivo/plivo-php": "^4.0"
     },
     "require-dev": {
         "mockery/mockery": "0.9.*",
