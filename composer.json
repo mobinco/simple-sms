@@ -11,13 +11,13 @@
         }
     ],
     "require": {
-        "php": ">=7.0.0",
+        "php": ">=8.0.0",
         "illuminate/mail": ">=5.0.0",
         "illuminate/log": ">=5.0.0",
         "illuminate/queue": ">=5.0.0",
         "illuminate/support": ">=5.0.0",
         "illuminate/view": ">=5.0.0",
-        "guzzlehttp/guzzle": "~6",
+        "guzzlehttp/guzzle": "~7",
         "twilio/sdk": "~4",
         "plivo/plivo-php": "^1.0"
     },

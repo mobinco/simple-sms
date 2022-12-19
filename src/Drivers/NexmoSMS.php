@@ -22,7 +22,7 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
      *
      * @var array
      */
-    protected $apiEnding = [];
+    protected $apiEnding = ['type' => 'unicode'];
 
     /**
      * The API key.
@@ -55,7 +55,6 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
         $this->client = $client;
         $this->apiKey = $apiKey;
         $this->apiSecret = $apiSecret;
-        $this->setEncoding();
     }
 
     /**
@@ -229,12 +228,5 @@ class NexmoSMS extends AbstractSMS implements DriverInterface
         $incomingMessage->setTo($raw->get('to'));
 
         return $incomingMessage;
-    }
-
-    private function setEncoding()
-    {
-        if (env('NEXMO_ENCODING', 'unicode') === 'unicode') {
-            $this->apiEnding = ['type' => 'unicode'];
-        }
     }
 }

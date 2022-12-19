@@ -4,19 +4,20 @@ namespace SimpleSoftwareIO\SMS;
 
 use GuzzleHttp\Client;
 use Illuminate\Support\Manager;
-use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
-use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
-use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
-use SimpleSoftwareIO\SMS\Drivers\FlowrouteSMS;
-use SimpleSoftwareIO\SMS\Drivers\JustSendSMS;
-use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
+use SimpleSoftwareIO\SMS\Drivers\SMS77;
 use SimpleSoftwareIO\SMS\Drivers\LogSMS;
+use SimpleSoftwareIO\SMS\Drivers\EmailSMS;
 use SimpleSoftwareIO\SMS\Drivers\MozeoSMS;
 use SimpleSoftwareIO\SMS\Drivers\NexmoSMS;
 use SimpleSoftwareIO\SMS\Drivers\PlivoSMS;
-use SimpleSoftwareIO\SMS\Drivers\SMS77;
 use SimpleSoftwareIO\SMS\Drivers\TwilioSMS;
 use SimpleSoftwareIO\SMS\Drivers\ZenviaSMS;
+use SimpleSoftwareIO\SMS\Drivers\CallFireSMS;
+use SimpleSoftwareIO\SMS\Drivers\JustSendSMS;
+use SimpleSoftwareIO\SMS\Drivers\EZTextingSMS;
+use SimpleSoftwareIO\SMS\Drivers\FlowrouteSMS;
+use SimpleSoftwareIO\SMS\Drivers\LabsMobileSMS;
+use SimpleSoftwareIO\SMS\Drivers\IPPanelSMS;
 
 class DriverManager extends Manager
 {
@@ -263,6 +264,23 @@ class DriverManager extends Manager
         $config = $this->app['config']->get('sms.justsend', []);
 
         $provider = new JustSendSMS(
+            $config['api_key']
+        );
+
+        return $provider;
+    }
+    
+    /**
+     * Create an instance of the ippanel driver.
+     *
+     * @return IPPanelSMS
+     */
+    protected function createIPPanelDriver()
+    {
+        $config = $this->app['config']->get('sms.ippanel', []);
+
+        $provider = new IPPanelSMS(
+            new Client(),
             $config['api_key']
         );
 
