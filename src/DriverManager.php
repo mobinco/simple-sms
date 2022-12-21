@@ -28,7 +28,7 @@ class DriverManager extends Manager
      */
     public function getDefaultDriver()
     {
-        return $this->app['config']['sms.driver'];
+        return app()['config']['sms.driver'];
     }
 
     /**
@@ -38,7 +38,7 @@ class DriverManager extends Manager
      */
     public function setDefaultDriver($name)
     {
-        $this->app['config']['sms.driver'] = $name;
+        app()['config']['sms.driver'] = $name;
     }
 
     /**
@@ -48,7 +48,7 @@ class DriverManager extends Manager
      */
     protected function createLogDriver()
     {
-        $provider = new LogSMS($this->app['log']);
+        $provider = new LogSMS(app()['log']);
 
         return $provider;
     }
@@ -60,7 +60,7 @@ class DriverManager extends Manager
      */
     protected function createCallfireDriver()
     {
-        $config = $this->app['config']->get('sms.callfire', []);
+        $config = app()['config']->get('sms.callfire', []);
 
         $provider = new CallFireSMS(
             new Client(),
@@ -78,7 +78,7 @@ class DriverManager extends Manager
      */
     protected function createEmailDriver()
     {
-        $provider = new EmailSMS($this->app['mailer']);
+        $provider = new EmailSMS(app()['mailer']);
 
         return $provider;
     }
@@ -90,7 +90,7 @@ class DriverManager extends Manager
      */
     protected function createEztextingDriver()
     {
-        $config = $this->app['config']->get('sms.eztexting', []);
+        $config = app()['config']->get('sms.eztexting', []);
 
         $provider = new EZTextingSMS(new Client());
 
@@ -111,7 +111,7 @@ class DriverManager extends Manager
      */
     protected function createLabsMobileDriver()
     {
-        $config = $this->app['config']->get('sms.labsmobile', []);
+        $config = app()['config']->get('sms.labsmobile', []);
 
         $provider = new LabsMobileSMS(new Client());
 
@@ -132,7 +132,7 @@ class DriverManager extends Manager
      */
     protected function createMozeoDriver()
     {
-        $config = $this->app['config']->get('sms.mozeo', []);
+        $config = app()['config']->get('sms.mozeo', []);
 
         $provider = new MozeoSMS(new Client());
 
@@ -153,7 +153,7 @@ class DriverManager extends Manager
      */
     protected function createNexmoDriver()
     {
-        $config = $this->app['config']->get('sms.nexmo', []);
+        $config = app()['config']->get('sms.nexmo', []);
 
         $provider = new NexmoSMS(
             new Client(),
@@ -171,12 +171,12 @@ class DriverManager extends Manager
      */
     protected function createTwilioDriver()
     {
-        $config = $this->app['config']->get('sms.twilio', []);
+        $config = app()['config']->get('sms.twilio', []);
 
         return new TwilioSMS(
             new \Services_Twilio($config['account_sid'], $config['auth_token']),
             $config['auth_token'],
-            $this->app['request']->url(),
+            app()['request']->url(),
             $config['verify']
         );
     }
@@ -188,7 +188,7 @@ class DriverManager extends Manager
       */
      protected function createZenviaDriver()
      {
-         $config = $this->app['config']->get('sms.zenvia', []);
+         $config = app()['config']->get('sms.zenvia', []);
 
          $provider = new ZenviaSMS(
              new Client(),
@@ -207,7 +207,7 @@ class DriverManager extends Manager
      */
     protected function createPlivoDriver()
     {
-        $config = $this->app['config']->get('sms.plivo', []);
+        $config = app()['config']->get('sms.plivo', []);
 
         $provider = new PlivoSMS(
             $config['auth_id'],
@@ -224,7 +224,7 @@ class DriverManager extends Manager
      */
     protected function createFlowrouteDriver()
     {
-        $config = $this->app['config']->get('sms.flowroute', []);
+        $config = app()['config']->get('sms.flowroute', []);
 
         $provider = new FlowrouteSMS(
             new Client(),
@@ -242,7 +242,7 @@ class DriverManager extends Manager
      */
     protected function createSms77Driver()
     {
-        $config = $this->app['config']->get('sms.sms77', []);
+        $config = app()['config']->get('sms.sms77', []);
 
         $provider = new SMS77(
             new Client(),
@@ -261,7 +261,7 @@ class DriverManager extends Manager
      */
     protected function createJustSendDriver()
     {
-        $config = $this->app['config']->get('sms.justsend', []);
+        $config = app()['config']->get('sms.justsend', []);
 
         $provider = new JustSendSMS(
             $config['api_key']
@@ -277,7 +277,7 @@ class DriverManager extends Manager
      */
     protected function createIPPanelDriver()
     {
-        $config = $this->app['config']->get('sms.ippanel', []);
+        $config = app()['config']->get('sms.ippanel', []);
 
         $provider = new IPPanelSMS(
             new Client(),
