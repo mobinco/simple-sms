@@ -15,7 +15,7 @@ class IPPanelSMS extends AbstractSMS implements DriverInterface
      *
      * @var string
      */
-    protected $apiBase = 'http://rest.ippanel.com/v1';
+    protected $apiBase = 'https://api2.ippanel.com/api/v1';
 
     /**
      * The API key.
@@ -49,16 +49,16 @@ class IPPanelSMS extends AbstractSMS implements DriverInterface
         $numbers = (array) implode(',', $message->getTo());
 
         $data = [
-            'originator'    => $from,
-            'recipients'    => $numbers,
+            'sender'        => $from,
+            'recipient'     => $numbers,
             'message'       => $composeMessage,
         ];
 
         //Parse Pattern
         $data = $this->parsePattern($data);
-        $pattern = (isset($data['pattern_code']) ? '/patterns/send' : '');
+        $pattern = (isset($data['code']) ? '/sms/pattern/normal/send' : '');
 
-        $this->buildCall('/messages' . $pattern);
+        $this->buildCall($pattern ? $pattern : '/sms/send/webservice/single');
         $this->buildBody($data);
 
         $response = $this->postRequest();
@@ -178,7 +178,7 @@ class IPPanelSMS extends AbstractSMS implements DriverInterface
      */
     public function checkMessages(array $options = [])
     {
-        $this->buildCall('/search/messages/'.$this->api_key);
+        $this->buildCall('/sms/message/all');
 
         $this->buildBody($options);
 
@@ -196,7 +196,7 @@ class IPPanelSMS extends AbstractSMS implements DriverInterface
      */
     public function getMessage($messageId)
     {
-        $this->buildCall('/search/message/'.$this->api_key.'/'.$messageId);
+        $this->buildCall('/sms/message/show-recipient/message-id/'.$messageId);
 
         return $this->makeMessage(json_decode($this->getRequest()->getBody()->getContents()));
     }
@@ -216,7 +216,8 @@ class IPPanelSMS extends AbstractSMS implements DriverInterface
         [
             'json'      => $body,
             'headers'   => [
-                'Authorization' => 'AccessKey '.$this->api_key,
+                'apikey'        => $this->api_key,
+                'accept'        => 'application/json',
                 'Content-type'  => 'application/json',
             ],
         ]);
@@ -269,13 +270,13 @@ class IPPanelSMS extends AbstractSMS implements DriverInterface
         }
 
         if (count($arrRet) > 0) {
-            $data['pattern_code'] = $arrRet['pid'];
-            $data['recipient'] = isset($data['recipients'][0]) ? $data['recipients'][0] : '';
+            $data['code'] = $arrRet['pid'];
+            $data['recipient'] = isset($data['recipient'][0]) ? $data['recipient'][0] : '';
 
             unset($data['message']);
-            unset($data['recipients']);
+            unset($data['recipient']);
             unset($arrRet['pid']);
-            $data['values'] = $arrRet;
+            $data['variable'] = $arrRet;
         }
 
         return $data;
