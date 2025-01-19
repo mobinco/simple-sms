@@ -274,7 +274,6 @@ class IPPanelSMS extends AbstractSMS implements DriverInterface
             $data['recipient'] = isset($data['recipient'][0]) ? $data['recipient'][0] : '';
 
             unset($data['message']);
-            unset($data['recipient']);
             unset($arrRet['pid']);
             $data['variable'] = $arrRet;
         }
